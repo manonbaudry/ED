@@ -8,9 +8,9 @@ public class Track {
     private String name;
     private String artist;
     private int nbStreams;
-    private Date date;
+    private String date;
 
-    public Track(int position, String name, String artist, int nbStreams, Date date) {
+    public Track(int position, String name, String artist, int nbStreams, String date) {
         this.position = position;
         this.name = name;
         this.artist = artist;
@@ -34,7 +34,7 @@ public class Track {
         return nbStreams;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -45,7 +45,7 @@ public class Track {
                 ", name=" + name + ' ' +
                 ", artist=" + artist + ' ' +
                 ", nbStreams=" + nbStreams +
-                ", date=" + date.toString() +
+                ", date=" + date +
                 '}';
     }
 }

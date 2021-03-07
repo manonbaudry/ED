@@ -27,13 +27,13 @@ public class CSVReader {
                     isFirstLine = false;
                 }else{
                     String[] data = line.split(";");
-                    Track track = new Track(Integer.parseInt(data[0]), data[1], data[2], Integer.parseInt(data[3]), new SimpleDateFormat("yyyy-MM-dd").parse(data[4]));
+                    Track track = new Track(Integer.parseInt(data[0]), data[1], data[2], Integer.parseInt(data[3]), data[4]);
                     tracks.put(Integer.parseInt(data[0]), track);
                 }
             }
             bufferedReader.close();
             return tracks;
-        } catch (IOException | ParseException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
