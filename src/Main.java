@@ -1,13 +1,20 @@
 import java.io.Console;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Main {
 	SpotifyFeed spotifyFeed;
-	
+
 	public static void main(String[] args) {
-		SpotifyFeed spotifyFeed=null;
+		SpotifyFeed spotifyFeed = null;
 		try {
-			spotifyFeed = new SpotifyFeed("DESPELCHIN_ED", "origan");
+			Scanner scanner = new Scanner(System.in);
+			System.out.print("login : ");
+			String login = scanner.nextLine();
+			System.out.print("password : ");
+			String pwd = scanner.nextLine();
+			
+			spotifyFeed = new SpotifyFeed(login, pwd);
 			CSVReader csvReader = new CSVReader("src/france.csv");
 			HashMap<Integer, Track> tracks = csvReader.parseData();
 			//for (int i = 1; i < tracks.size(); i++) {
@@ -20,8 +27,5 @@ public class Main {
 		}finally {
 			spotifyFeed.disconnect();
 		}
-
-
-
 	}
 }
