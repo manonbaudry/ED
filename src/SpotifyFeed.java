@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
+import java.*;
 
 public class SpotifyFeed {
     private Connection connection;
@@ -17,7 +18,7 @@ public class SpotifyFeed {
         try {
             connection = DriverManager.getConnection(url, login, pwd);
             statement = connection.createStatement();
-        }catch (SQLException e){  
+        }catch (SQLException e){
             e.printStackTrace();
         }
     }
@@ -28,8 +29,8 @@ public class SpotifyFeed {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }    
-    
+    }
+
     public void insertTracks(Track track) {
     	try {
     		int position = track.getPosition();
