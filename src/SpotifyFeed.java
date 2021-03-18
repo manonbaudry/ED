@@ -11,14 +11,12 @@ public class SpotifyFeed {
 
     private PreparedStatement statement;
     private CallableStatement insert ;
-	private Map<String, Integer> artists;
 	private List<Track> tracks;
 
     public SpotifyFeed(String login, String pwd) {
         try {
             connection = DriverManager.getConnection(url, login, pwd);
             connection.createStatement();
-			this.artists = getArtists();
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -216,7 +214,7 @@ public class SpotifyFeed {
 				int id = rs.getInt("al_id");
 				 Date date = rs.getDate("date_vente");
 				if (!map.containsKey(id)) {
-					ArrayList< Date> list = new ArrayList< Date>();
+					ArrayList< Date> list = new ArrayList<>();
 					list.add(date);
 					map.put(id, list);
 				} else {

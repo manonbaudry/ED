@@ -25,14 +25,14 @@ public class CSVReader {
             while((line = bufferedReader.readLine()) != null) {
                     String[] data = line.split(";");
                 if (artists.containsKey(data[2])) {
-                    Track track = new Track(Integer.parseInt(data[0]), data[1], data[2], Integer.parseInt(data[3]), data[4]);
+                    Track track = new Track(Integer.parseInt(data[0]), data[1], data[2], Integer.parseInt(data[3]), new SimpleDateFormat("dd/MM/yyyy").parse(data[4]));
                     tracks.add(track);
                 }
             }
             tracks.remove(1);
             bufferedReader.close();
             return tracks;
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
         return null;
