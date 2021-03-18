@@ -1,23 +1,21 @@
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Date;
+import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.*;
 
 public class SpotifyFeed {
     private Connection connection;
     private final String url = "jdbc:oracle:thin:@oracle.fil.univ-lille1.fr:1521:filora";
 
-    private Statement statement;
+    private PreparedStatement statement;
     private CallableStatement insert ;
+	private Map<String, Integer> artists;
 
     public SpotifyFeed(String login, String pwd) {
         try {
             connection = DriverManager.getConnection(url, login, pwd);
-            statement = connection.createStatement();
+            connection.createStatement();
+			this.artists = getArtists();
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -31,68 +29,42 @@ public class SpotifyFeed {
         }
     }
 
-    public void insertTracks(Track track) {
-    	try {
-    		int position = track.getPosition();
-    		String track_name = track.getName();
-    		String artist = track.getArtist();
-    		int streams = track.getNbStreams();
-    		String date = track.getDate();
-    		
-    		String query ="INSERT INTO TRACKS VALUES("+position+",\'"+track_name+"\',\'"+artist+"\',"+streams+",to_date(\'"+date+"\','DD-MM-YYYY'))";
-    		
-    		System.out.println("togo");
-    		//statement.executeUpdate("INSERT INTO TRACKS VALUES(17,'River (feat. Ed Sheeran)','Eminem',77227,to_date('09/01/2018','MM-DD-YYYY'))");
-    		statement.executeUpdate(query);
-    		System.out.println("ok");
-    	}catch (SQLException e) {
-    		e.printStackTrace();
-		}			
-    }
+	public Map<String, Integer> getArtists() {
+		HashMap<String, Integer> artists = new HashMap<String, Integer>();
+		String query = "SELECT ar_id,ar_nom FROM SID_ARTISTE";
+		try {
+			this.statement = this.connection.prepareStatement(query);
+			ResultSet rs = this.statement.executeQuery();
+			while (rs.next()) {
+				String artist = rs.getString("ar_nom");
+				int id = rs.getInt("ar_id");
+				artists.put(artist, id);
+			}
+			rs.close();
+			this.statement.close();
+			return artists;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
-    /**public void updateSpotify(String position, String track_name, String artist, String streams, String date) {
-    	try {
-			String query = 
-					"update SID_VENTE\n" + 
-					"SET \n" + 
-					"ar_id = \n" + 
-					"(Select ARTISTE.ar_id where ARTISTE.ar_nom ="+ artist + "\n" + 
-					"FROM SID_Artiste ARTISTE \n" + 
-					"),\n" + 
-					"nb_titre_top_200 = \n" + 
-					"(\n" + 
-					"SELECT COUNT(*)\n" + 
-					"FROM TRACK\n" + 
-					"where TRACK.date = date_vente \n" + 
-					"	AND TRACK.position <=200\n" + 
-					"),\n" + 
-					"max_stream =\n" + 
-					"(\n" + 
-					"SELECT MAX(TRACK.streams)\n" + 
-					"FROM TRACK  T\n" + 
-					"WHERE T.date = date_vente \n" + 
-					"AND  ( SELECT streams from TRACK where track_name IN\n" + 
-					"(SELECT en_titre from SIO_enregistrement ENREGISTREMENT \n" + 
-					"INNER JOIN SIO_contient CONTIENT on ENREGISTREMENT.en_id = CONTIENT.en_ID \n" + 
-					"AND CONTIENT.al_id = THIS.al_id\n" + 
-					") \n" + 
-					")\n" + 
-					"),\n" + 
-					"total_stream =\n" + 
-					"(SELECT SUM(TRACK.streams) \n" + 
-					"FROM TRACK  T\n" + 
-					"where T.date = date_vente \n" + 
-					"AND  (SELECT streams from TRACK where track_name IN\n" + 
-					"(SELECT en_titre from SIO_enregistrement ENREGISTREMENT \n" + 
-					"INNER JOIN SIO_contient CONTIENT on ENREGISTREMENT.en_id = CONTIENT.en_ID \n" + 
-					"AND CONTIENT.al_id = THIS.al_id\n" + 
-					") \n" + 
-					")\n" + 
-					");\n" + 
-					"\n";
 
-    	 }catch (SQLException e){
-             e.printStackTrace();
-         }
-    }*/
+//    public void insertTracks(Track track) {
+//    	try {
+//    		int position = track.getPosition();
+//    		String track_name = track.getName();
+//    		String artist = track.getArtist();
+//    		int streams = track.getNbStreams();
+//    		String date = track.getDate();
+//
+//
+//			//insert = connection.prepareCall(query);
+//			insert.execute();
+//    	}catch (SQLException e) {
+//    		e.printStackTrace();
+//		}finally {
+//    		disconnect();
+//		}
+//    }
 }

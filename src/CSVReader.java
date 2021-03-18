@@ -17,22 +17,19 @@ public class CSVReader {
         }
     }
 
-    public HashMap parseData(){
+    public List<Track> parseData(Map<String, Integer> artists){
         try {
-            HashMap<Integer, Track> tracks = new HashMap<Integer, Track>();
-            int id =1;
+            List<Track> tracks = new ArrayList();
+
             String line;
-            boolean isFirstLine = true;
             while((line = bufferedReader.readLine()) != null) {
-                if(isFirstLine){
-                    isFirstLine = false;
-                }else{
                     String[] data = line.split(";");
+                if (artists.containsKey(data[2])) {
                     Track track = new Track(Integer.parseInt(data[0]), data[1], data[2], Integer.parseInt(data[3]), data[4]);
-                    tracks.put(id, track);
-                    id++;
+                    tracks.add(track);
                 }
             }
+            tracks.remove(1);
             bufferedReader.close();
             return tracks;
         } catch (IOException e) {
