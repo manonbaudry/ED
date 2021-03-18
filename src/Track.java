@@ -9,6 +9,7 @@ public class Track {
     private String artist;
     private int nbStreams;
     private String date;
+    private int id;
 
     public Track(int position, String name, String artist, int nbStreams, String date) {
         this.position = position;

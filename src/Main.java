@@ -7,14 +7,15 @@ public class Main {
 	public static void main(String[] args) {
 		SpotifyFeed spotifyFeed=null;
 		try {
-			spotifyFeed = new SpotifyFeed("DESPELCHIN_ED", "origan");
+			spotifyFeed = new SpotifyFeed("DEFEVER_ED", "un_mot_de_passe");
 			CSVReader csvReader = new CSVReader("src/france.csv");
 			HashMap<Integer, Track> tracks = csvReader.parseData();
-			//for (int i = 1; i < tracks.size(); i++) {
-			//	System.out.println(i);
-			//}
 			System.out.println(tracks.size());
-			spotifyFeed.insertTracks(tracks.get(1));
+			for(int id : tracks.keySet()){
+				spotifyFeed.insertTracks(tracks.get(id));
+			}
+
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {

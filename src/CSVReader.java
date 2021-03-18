@@ -20,6 +20,7 @@ public class CSVReader {
     public HashMap parseData(){
         try {
             HashMap<Integer, Track> tracks = new HashMap<Integer, Track>();
+            int id =1;
             String line;
             boolean isFirstLine = true;
             while((line = bufferedReader.readLine()) != null) {
@@ -28,7 +29,8 @@ public class CSVReader {
                 }else{
                     String[] data = line.split(";");
                     Track track = new Track(Integer.parseInt(data[0]), data[1], data[2], Integer.parseInt(data[3]), data[4]);
-                    tracks.put(Integer.parseInt(data[0]), track);
+                    tracks.put(id, track);
+                    id++;
                 }
             }
             bufferedReader.close();

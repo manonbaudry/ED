@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
-import java.*;
 
 public class SpotifyFeed {
     private Connection connection;
@@ -39,18 +38,18 @@ public class SpotifyFeed {
     		int streams = track.getNbStreams();
     		String date = track.getDate();
     		
-    		//String query ="INSERT INTO TRACKS VALUES("+position+",\'"+track_name+"\',\'"+artist+"\',"+streams+",to_date(\'"+date+"\','MM-DD-YYYY'))";
+    		String query ="INSERT INTO TRACKS VALUES("+position+",\'"+track_name+"\',\'"+artist+"\',"+streams+",to_date(\'"+date+"\','DD-MM-YYYY'))";
     		
     		System.out.println("togo");
-    		statement.executeUpdate("INSERT INTO TRACKS VALUES(17,'River (feat. Ed Sheeran)','Eminem',77227,to_date('09/01/2018','MM-DD-YYYY'))");
-    		//statement.executeUpdate(query);
+    		//statement.executeUpdate("INSERT INTO TRACKS VALUES(17,'River (feat. Ed Sheeran)','Eminem',77227,to_date('09/01/2018','MM-DD-YYYY'))");
+    		statement.executeUpdate(query);
     		System.out.println("ok");
     	}catch (SQLException e) {
     		e.printStackTrace();
 		}			
     }
-    /**
-    public void insertSpotify(String position, String track_name, String artist, String streams, String date) {
+
+    /**public void updateSpotify(String position, String track_name, String artist, String streams, String date) {
     	try {
 			String query = 
 					"update SID_VENTE\n" + 
@@ -89,8 +88,8 @@ public class SpotifyFeed {
 					") \n" + 
 					")\n" + 
 					");\n" + 
-					"\n" + 
-					"";
+					"\n";
+
     	 }catch (SQLException e){
              e.printStackTrace();
          }
