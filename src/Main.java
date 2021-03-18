@@ -1,11 +1,7 @@
-import java.io.Console;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
 import java.util.Scanner;
 
 public class Main {
-	SpotifyFeed spotifyFeed;
 
 	public static void main(String[] args) {
 		SpotifyFeed spotifyFeed = null;
@@ -18,8 +14,9 @@ public class Main {
 
 			spotifyFeed = new SpotifyFeed(login, pwd);
 			CSVReader csvReader = new CSVReader("src/france.csv");
-			List<Track> tracks = csvReader.parseData(spotifyFeed.getArtists());
-
+			spotifyFeed.setTracks(csvReader.parseData(spotifyFeed.getArtists()));
+			spotifyFeed.updateColumnArId();
+			spotifyFeed.updateTitlesAndNbStreams();
 
 		} catch (Exception e) {
 			e.printStackTrace();
